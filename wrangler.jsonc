@@ -1,39 +1,44 @@
 {
-  "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "posthog-metaads",
-  "main": "src/index.ts",
-  "compatibility_date": "2025-12-04",
-  // "compatibility_flags": [
-  //   "nodejs_compat"
-  // ],
-  "vars": {
-    "META_API_VERSION": "v19.0",
-    "POSTHOG_HOST": "https://us.posthog.com"
-  },
-  "kv_namespaces": [
-    {
-      "binding": "STATE",
-      "id": "<YOUR_KV_NAMESPACE_ID>"
-    }
-  ],
-  // "r2_buckets": [
-  //   {
-  //     "binding": "MY_BUCKET",
-  //     "bucket_name": "my-bucket"
-  //   }
-  // ],
-  // "d1_databases": [
-  //   {
-  //     "binding": "MY_DB",
-  //     "database_name": "my-database",
-  //     "database_id": ""
-  //   }
-  // ],
-  // "ai": {
-  //   "binding": "AI"
-  // },
-  // "observability": {
-  //   "enabled": true,
-  //   "head_sampling_rate": 1
-  // }
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "posthog-metaads",
+	"main": "src/index.ts",
+	"compatibility_date": "2025-12-04",
+	// "compatibility_flags": [
+	//   "nodejs_compat"
+	// ],
+	"vars": {
+		"META_API_VERSION": "v19.0",
+		"POSTHOG_HOST": "https://us.posthog.com"
+	},
+	"kv_namespaces": [
+		{
+			"binding": "STATE",
+			"id": "3489ad3da37a4b31a83010d0af5ec218",
+		},
+	],
+	"triggers": {
+		"crons": [
+			"0 9 * * 1"
+		]
+	},
+	// "r2_buckets": [
+	//   {
+	//     "binding": "MY_BUCKET",
+	//     "bucket_name": "my-bucket"
+	//   }
+	// ],
+	// "d1_databases": [
+	//   {
+	//     "binding": "MY_DB",
+	//     "database_name": "my-database",
+	//     "database_id": ""
+	//   }
+	// ],
+	// "ai": {
+	//   "binding": "AI"
+	// },
+	// "observability": {
+	//   "enabled": true,
+	//   "head_sampling_rate": 1
+	// }
 }
