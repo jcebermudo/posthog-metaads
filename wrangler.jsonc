@@ -2,19 +2,20 @@
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "posthog-metaads",
   "main": "src/index.ts",
-  "compatibility_date": "2025-12-04"
+  "compatibility_date": "2025-12-04",
   // "compatibility_flags": [
   //   "nodejs_compat"
   // ],
-  // "vars": {
-  //   "MY_VAR": "my-variable"
-  // },
-  // "kv_namespaces": [
-  //   {
-  //     "binding": "MY_KV_NAMESPACE",
-  //     "id": "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-  //   }
-  // ],
+  "vars": {
+    "META_API_VERSION": "v19.0",
+    "POSTHOG_HOST": "https://us.posthog.com"
+  },
+  "kv_namespaces": [
+    {
+      "binding": "STATE",
+      "id": "<YOUR_KV_NAMESPACE_ID>"
+    }
+  ],
   // "r2_buckets": [
   //   {
   //     "binding": "MY_BUCKET",
