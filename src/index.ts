@@ -30,6 +30,14 @@ const ALLOWED_EVENTS = new Set([
 
 const ALLOWED_OBJECTS = new Set(['CAMPAIGN', 'AD_SET', 'AD', 'AUDIENCE'])
 
+// Map API object types to display-friendly names
+const OBJECT_TYPE_DISPLAY_MAP: Record<string, string> = {
+  'CAMPAIGN': 'Campaign',
+  'AD_SET': 'Ad Set', 
+  'AD': 'Ad',
+  'AUDIENCE': 'Audience'
+}
+
 async function syncMetaToPosthog(env: Bindings, daysBack?: number) {
   console.log('syncMetaToPosthog: start')
   const allowAll = env.ALLOW_ALL_EVENTS === 'true'
@@ -133,35 +141,17 @@ async function syncMetaToPosthog(env: Bindings, daysBack?: number) {
 async function generateAnnotationMessage(activity: any, extra: any): Promise<string | null> {
   const name = activity.object_name || "Unkown"
   const type = activity.event_type
+  const displayObjectType = OBJECT_TYPE_DISPLAY_MAP[activity.object_type] || activity.object_type
 
 
   if (type.includes('budget') || type.includes('spend_cap')) {
     console.log('budget updated', extra)
     const oldVal = extra.old_value.old_value || '?'
     const newVal = extra.new_value.new_value || '?'
-    return `Budget updated on ${activity.object_type}: ${name} (PHP${oldVal} -> PHP${newVal})` // [cite: 95]
+    return `Budget updated on ${displayObjectType}: ${name} (₱${oldVal} -> ₱${newVal})` // [cite: 95]
   }
 
-  if (type.includes('run_status')) {
-    const status = extra.new_status || 'updated'
-    return `${activity.object_type} status: ${name} is now ${status}` // [cite: 96]
-  }
-
-  if (type === 'ad_review_declined') {
-    return `Ad review declined: ${name} (reason: ${extra.rejection_reason || 'unknown'})` // [cite: 97]
-  }
-
-  if (type.includes('target') || type.includes('audience')) {
-    return `Targeting updated: ${name} (Changed keys: ${extra.keys_changed || 'N/A'})`
-  }
-
-  if (type.includes('billing')) {
-    return `Billing error: ${extra.billing_error_message || 'Payment failed'}` // [cite: 98]
-  }
-
-  if (type.includes('creative') || type === 'create_ad') {
-     return `Creative updated: ${name} (${extra.change_type || 'content changed'})`
-  }
+  
 
   // fallback if the other things above dont work
 
